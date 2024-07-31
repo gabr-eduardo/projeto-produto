@@ -6,18 +6,18 @@ const Cor = require("../models/cor")
 controller.getRegisterPage = async (req, res) => {
     try {
         const cores = await Cor.findAll()
-        res.status(200).render("produtos/form",{
-            cores : cores,
-            produto : new Product(),
-            method : "POST"
+        res.status(200).render("produtos/form", {
+            cores: cores,
+            produto: new Product(),
+            method: "POST"
         })
     } catch (error) {
-        res.status(500).render("pages/error",{error: "Erro ao carregar o formulário!"})
+        res.status(500).render("pages/error", { error: "Erro ao carregar o formulário!" })
     }
 }
 
 controller.getUpdatePage = async (req, res) => {
-    const {produtoId} = req.params
+    const { produtoId } = req.params
     try {
         const produto = await Product.findByPk(produtoId, {
             include: [
@@ -29,16 +29,16 @@ controller.getUpdatePage = async (req, res) => {
         })
 
         if (!produto) {
-            return res.status(422).render("pages/error",{error: "Produto não existe!"})
+            return res.status(422).render("pages/error", { error: "Produto não existe!" })
         }
         console.log(produto)
         const cores = await Cor.findAll()
-        res.status(200).render("produtos/edit",{
-            cores : cores,
-            produto : produto
+        res.status(200).render("produtos/edit", {
+            cores: cores,
+            produto: produto
         })
     } catch (error) {
-        res.status(500).render("pages/error",{error: "Erro ao carregar o formulário!"})
+        res.status(500).render("pages/error", { error: "Erro ao carregar o formulário!" })
     }
 }
 
@@ -50,9 +50,9 @@ controller.getAll = async (req, res) => {
             include: Cor
         })
         //res.status(200).json(products)
-        res.status(200).render("produtos/index",{produtos: products})
+        res.status(200).render("produtos/index", { produtos: products })
     } catch (error) {
-        res.status(500).render("pages/error",{error: "Erro ao carregar a página!"})
+        res.status(500).render("pages/error", { error: "Erro ao carregar a página!" })
     }
 }
 
@@ -70,12 +70,12 @@ controller.getById = async (req, res) => {
         })
 
         if (!product) {
-            return res.status(422).render("pages/error",{error: "Produto não existe!"})
+            return res.status(422).render("pages/error", { error: "Produto não existe!" })
         }
 
         res.status(200).json(product)
     } catch (error) {
-        res.status(500).render("pages/error",{error: "Erro ao buscar o produto!"})
+        res.status(500).render("pages/error", { error: "Erro ao buscar o produto!" })
     }
 }
 
@@ -94,10 +94,10 @@ controller.create = async (req, res) => {
         res.status(200).redirect("/produtos")
     } catch (error) {
         res.status(422).render("produtos/form",
-        {
-            produto: { ...produto,error}, //criando uma cópia de produto para a página que será chamada
-            cores : coresBD
-        })
+            {
+                produto: { ...produto, error }, //criando uma cópia de produto para a página que será chamada
+                cores: coresBD
+            })
     }
 
 }
@@ -109,7 +109,7 @@ controller.update = async (req, res) => {
         const produto = await Product.findByPk(produtoId)
 
         if (!produto) {
-            return res.status(500).render("pages/error",{error: "Produto não existe!"})
+            return res.status(500).render("pages/error", { error: "Produto não existe!" })
         }
 
         if (descricao) {
@@ -127,7 +127,7 @@ controller.update = async (req, res) => {
 
         res.status(200).redirect("/produtos")
     } catch (error) {
-        res.status(500).render("pages/error",{error: "Erro ao atualizar o produto!"})
+        res.status(500).render("pages/error", { error: "Erro ao atualizar o produto!" })
     }
 }
 
@@ -144,7 +144,7 @@ controller.delete = async (req, res) => {
 
         res.status(200).redirect("/produtos")
     } catch (error) {
-        res.status(422).render("pages/error",{error: "Não foi possível remover o produto"})
+        res.status(422).render("pages/error", { error: "Não foi possível remover o produto" })
     }
 }
 

@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 
-const connection = new sequelize("auladevweb", "root", "123456", {
+const connection = new sequelize("projeto_produto", "root", "", {
   host: "localhost",
   dialect: "mysql",
   define: {
@@ -10,9 +10,9 @@ const connection = new sequelize("auladevweb", "root", "123456", {
 });
 
 connection.authenticate().then(() => {
-    console.log('Conexão estabelecida com o banco de dados.');
-  }).catch((error) => {
+  console.log('Conexão estabelecida com o banco de dados.');
+}).catch((error) => {
   console.error('Erro ao conectar com o banco de dados:', error);
-  });
+});
 
-  module.exports = connection
+module.exports = connection
