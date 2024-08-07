@@ -34,25 +34,66 @@ controller.getById = async (req, res) => {
     }
 }
 
-//falta implementar front-end
-controller.create = async (req, res) => {
-    const { nome } = req.body
-    const { rua, cidade } = req.body.endereco
-
+controller.getRegisterPage = async (req, res) => {
     try {
-        const pessoa = await Pessoa.create({ nome })
-        await Endereco.create({ rua, cidade, pessoaId: pessoa.id })
-        res.status(200).json(pessoa)
+        const pessoaId = req.params.id;
+        const pessoa = pessoaId ? await Pessoa.findById(pessoaId) : new Pessoa();
+
+        res.status(200).render("pessoas/form", {
+            pessoas: {
+                pessoa: pessoa,
+                error: null
+            },
+            method: pessoaId ? "PUT" : "POST"
+        });
     } catch (error) {
-        res.status(422).send("Ocorreu um erro ao cadastrar a pessoa. " + error)
+        res.status(500).render("pages/error", { error: "Erro ao carregar o formulário!" });
+    }
+};
+
+controller.getUpdatePage = async (req, res) => {
+    const { pessoaId } = req.params
+    try {
+        const pessoa = await Pessoa.findByPk(pessoaId, {
+            include: [
+                {
+                    model: Endereco
+                },
+            ],
+        })
+
+        if (!pessoa) {
+            return res.status(422).render("pages/error", { error: "Pessoa não existe!" })
+        }
+        console.log(pessoa)
+
+        res.status(200).render("pessoas/edit", {
+            pessoa: pessoa
+        })
+    } catch (error) {
+        res.status(500).render("pages/error", { error: "Erro ao carregar o formulário!" })
     }
 }
+
+
+//falta implementar front-end
+controller.create = async (req, res) => {
+    const { nome, rua, cidade } = req.body;
+
+    try {
+        const pessoa = await Pessoa.create({ nome });
+        await Endereco.create({ rua, cidade, pessoaId: pessoa.id });
+        res.status(200).redirect("/pessoas");
+    } catch (error) {
+        res.status(422).send("Ocorreu um erro ao cadastrar a pessoa. " + error);
+    }
+};
 
 //falta implementar front-end
 controller.update = async (req, res) => {
     const { pessoaId } = req.params
     const { nome } = req.body
-    const { rua, cidade } = req.body.endereco
+    const { rua, cidade } = req.body
     try {
         const pessoa = await Pessoa.findByPk(pessoaId)
 
@@ -77,7 +118,7 @@ controller.update = async (req, res) => {
         endereco.cidade = cidade
         await endereco.save()
 
-        res.status(200).json(pessoa)
+        res.status(200).redirect("/pessoas");
     } catch (error) {
         res.status(422).send("Ocorreu um erro ao atualizar a pessoa. " + error)
     }
@@ -89,7 +130,7 @@ controller.delete = async (req, res) => {
     try {
         const pessoa = await Pessoa.findByPk(pessoaId)
         await pessoa.destroy()
-        res.status(200).json(pessoa)
+        res.status(200).redirect("/pessoas")
     } catch (error) {
         res.status(422).send("Ocorreu um erro ao remover a pessoa. " + error)
     }

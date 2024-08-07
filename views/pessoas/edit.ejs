@@ -1,4 +1,4 @@
-<%- include("../layouts/header", {title: 'Atualização de pessoas' }) %>
+<%- include("../layouts/header", { title: 'Cadastro de Pessoas' }) %>
 
   <%- include("../layouts/menu") %>
 
@@ -6,7 +6,7 @@
       <div class="container">
         <div class="columns">
           <div class="column is-four-fifths">
-            <h1 class="title is-4">Atualização de Produto</h1>
+            <h1 class="title is-4">Cadastro de Pessoas</h1>
           </div>
           <div class="column is-one-fifth">
             <div class="buttons is-pulled-right">
@@ -14,44 +14,30 @@
             </div>
           </div>
         </div>
-        <% if (produto.error) { %>
-          <p class="is-danger help">
-            <%= produto.error %>
-          </p>
-          <% } %>
-            <form action="/pessoas/<%= produto.id %>?_method=put" method="POST">
-              <div class="field">
-                <label class="label">Descrição</label>
-                <div class="control">
-                  <input class="input" type="text" name="descricao" value="<%= produto.descricao %>" required>
-                </div>
-              </div>
+        <form action="/pessoas/<%= pessoa.id %>?_method=put" method="post">
+          <div class="field">
+            <div class="control">
+              <input class="input" type="text" name="nome" placeholder="Digite o nomQe da pessoa"
+                value="<%= pessoa.nome %>" required>
+            </div>
+            <div class="control">
+              <input class="input" type="text" name="rua" placeholder="Digite o nome da rua"
+                value="<%= pessoa.endereco.rua %>" required>
+            </div>
+            <div class="control">
+              <input class="input" type="text" name="cidade" placeholder="Digite o nome da cidade"
+                value="<%= pessoa.endereco.cidade  %>" required>
+            </div>
+          </div>
 
-              <div class="field">
-                <label class="label">Preço</label>
-                <div class="control">
-                  <input class="input" type="number" name="preco" value="<%= produto.preco %>" step="0.01" required>
-                </div>
-              </div>
+          <!-- Adicione outros campos conforme necessário -->
 
-              <div class="field">
-                <label class="label">Cores</label>
-                <div class="control">
-                  <% cores.forEach(cor=> { %>
-                    <label class="checkbox">
-                      <input type="checkbox" name="coresIds[]" value="<%= cor.id %>" <% if (produto.cors.some(c=> c.id
-                      === cor.id)) { %> checked <% } %>> <%= cor.cor %>
-                    </label>
-                    <% })%>
-                </div>
-              </div>
-
-              <div class="field">
-                <div class="control">
-                  <button type="submit" class="button is-success">Atualizar</button>
-                </div>
-              </div>
-            </form>
+          <div class="field">
+            <div class="control">
+              <button type="submit" class="button is-success">Salvar</button>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
 

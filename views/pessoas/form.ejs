@@ -1,4 +1,4 @@
-<%- include("../layouts/header", {title: 'Cadastro de pessoastos' }) %>
+<%- include("../layouts/header", { title: 'Cadastro de Pessoas' }) %>
 
   <%- include("../layouts/menu") %>
 
@@ -6,51 +6,39 @@
       <div class="container">
         <div class="columns">
           <div class="column is-four-fifths">
-            <h1 class="title is-4">Cadastro de pessoasto</h1>
+            <h1 class="title is-4">Cadastro de Pessoas</h1>
           </div>
           <div class="column is-one-fifth">
             <div class="buttons is-pulled-right">
-              <a href="/pessoastos" class="button is-small">Voltar</a>
+              <a href="/pessoas" class="button is-small">Voltar</a>
             </div>
           </div>
         </div>
-        <% if (pessoasto.error) { %>
+        <% if (pessoas && pessoas.error) { %>
           <p class="is-danger help">
-            <%= pessoasto.error %>
+            <%= pessoas.error %>
           </p>
           <% } %>
-            <form action="/pessoastos" method="POST">
+            <form action="/pessoas<%= pessoas.pessoa._id ? '/' + pessoas.pessoa._id : '' %>" method="<%= method %>">
               <div class="field">
-                <label class="label">Descrição</label>
+                <label class="label">Nome</label>
                 <div class="control">
-                  <input class="input" type="text" name="descricao" placeholder="Digite a descrição do pessoasto"
-                    required>
+                  <input class="input" type="text" name="nome" placeholder="Digite o nome da pessoa"
+                    value="<%= pessoas.pessoa ? pessoas.pessoa.nome : '' %>" required>
                 </div>
-              </div>
-
-              <div class="field">
-                <label class="label">Preço</label>
                 <div class="control">
-                  <input class="input" type="number" name="preco" placeholder="Digite o preço do pessoasto" step="0.01"
-                    required>
+                  <input class="input" type="text" name="rua" placeholder="Digite o nome da rua"
+                    value="<%= pessoas.pessoa ? pessoas.pessoa.rua : '' %>" required>
                 </div>
-              </div>
-
-              <div class="field">
-                <label class="label">Cores</label>
                 <div class="control">
-                  <% cores.forEach(cor=> { %>
-                    <label class="checkbox">
-                      <input type="checkbox" name="coresIds[]" value="<%= cor.id %>">
-                      <%= cor.cor %>
-                    </label>
-                    <% })%>
+                  <input class="input" type="text" name="cidade" placeholder="Digite o nome da cidade"
+                    value="<%= pessoas.pessoa ? pessoas.pessoa.cidade : '' %>" required>
                 </div>
               </div>
 
               <div class="field">
                 <div class="control">
-                  <button type="submit" class="button is-success">Cadastrar</button>
+                  <button type="submit" class="button is-success">Salvar</button>
                 </div>
               </div>
             </form>

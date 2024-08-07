@@ -10,7 +10,7 @@
           </div>
           <div class="column is-one-fifth">
             <div class="buttons is-pulled-right">
-              <a href="/pessoas" class="button is-success is-small">Nova Pessoa</a>
+              <a href="/pessoas/novo" class="button is-success is-small">Nova Pessoa</a>
               <a href="/" class="button is-small">Voltar</a>
             </div>
           </div>
@@ -34,8 +34,6 @@
                     </div>
                     <div class="media-right">
                       <div class="buttons">
-                        <a href="#" class="button is-success is-small"
-                          onclick="adicionarAoCarrinho(event, '<%= pessoa.id %>')">Adicionar ao Carrinho</a>
                         <a href="/pessoas/<%= pessoa.id %>/update" class="button is-warning is-small">Atualizar</a>
                         <a href="/pessoas/<%= pessoa.id %>?_method=delete" class="button is-danger is-small">Remover</a>
                       </div>
@@ -59,9 +57,5 @@
 
       </div>
     </section>
-
-
-
-
 
     <%- include("../layouts/footer") %>
